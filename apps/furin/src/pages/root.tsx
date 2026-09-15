@@ -1,0 +1,4 @@
+import { defineRootRoute, HeadContent, Scripts } from "@teyik0/furin";
+export const route = defineRootRoute().config({ mode: "ssr" }).layout(({ children }) => (
+  <html lang="en"><head><HeadContent /></head><body>{children}<Scripts /></body></html>
+));

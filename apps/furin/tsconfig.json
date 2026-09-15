@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "jsx": "react-jsx", "types": ["bun", "react"] },
+  "include": ["src", "furin.config.ts", "furin-env.d.ts"]
+}

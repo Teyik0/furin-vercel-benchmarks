@@ -1,0 +1,12 @@
+node_modules
+.vercel
+**/.vercel
+**/.output
+**/.next
+**/.furin
+**/dist
+**/furin-env.d.ts
+**/.benchmark-nonce.ts
+reports/*.json
+reports/*.md
+!reports/README.md

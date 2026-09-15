@@ -1,0 +1,22 @@
+{
+  "name": "@benchmark/furin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "furin build --target vercel --analyze",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@benchmark/workload": "workspace:*",
+    "@teyik0/furin": "link:@teyik0/furin",
+    "elysia": "^1.4.30",
+    "evlog": "^2.28.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "typescript": "^7.0.2"
+  }
+}

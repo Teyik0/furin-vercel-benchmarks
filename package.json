@@ -1,0 +1,24 @@
+{
+  "name": "furin-vercel-benchmarks",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "benchmark": "bun scripts/benchmark.ts",
+    "build": "bun run --filter '*' --if-present build",
+    "setup": "bun install && bun run link:furin",
+    "link:furin": "bun scripts/verify-furin-link.ts",
+    "test": "bun test",
+    "typecheck": "bunx tsc --noEmit && bun run --filter '*' --if-present typecheck"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.2",
+    "playwright": "^1.58.2",
+    "typescript": "^7.0.2",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7"
+  }
+}

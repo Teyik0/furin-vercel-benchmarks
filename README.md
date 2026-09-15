@@ -1,0 +1,37 @@
+# Furin Vercel Benchmarks
+
+A reproducible Vercel comparison of Furin, Next.js, and TanStack Start using identical React workloads.
+
+## Scenarios
+
+- `dynamic`: dynamic SSR with the same 40-item React tree
+- `loader`: dynamic SSR after a deterministic 50 ms server loader
+- `isr`: the same server loader with a 300-second ISR window
+- `streaming`: an immediate shell and a deterministic 200 ms server-loaded subtree
+- `/api/ping`: bootstrap control only; never used as the headline framework result
+
+All apps use React 19, `cdg1`, Fluid Compute, and explicit `private, no-store` headers for dynamic controls. The TanStack app follows the current official Vercel scaffold (Nitro before TanStack Start) and its documented cache-header ISR strategy. Each deployment round writes a unique `.benchmark-nonce.ts` imported by server code to defeat Function deduplication.
+
+## Local Furin source
+
+Register the Furin package from the Furin repository, then link it into the benchmark app:
+
+```bash
+cd ../furin/packages/core
+bun link
+cd ../../furin-vercel-benchmarks
+bun run setup
+```
+
+Furin is built locally and deployed with `vercel deploy --prebuilt`; unpublished source never has to be installed by Vercel. The benchmark-only Bun plugin in `apps/furin/furin.config.ts` resolves React peer dependencies from this repository so `bun link` does not bundle a second physical React copy.
+
+## Run
+
+```bash
+bun run build
+bun run benchmark --rounds 3 --warm-samples 5
+```
+
+The runner rotates deployment order and interleaves warm requests so each framework sees the same time windows. It targets each exact deployment URL through authenticated `vercel curl`. Browser navigation uses a programmatic click timed inside the page on the public production aliases after verifying their build nonce; raw reports include every resulting resource timing. Every HTTP response must be successful, and ISR hit samples must carry `x-vercel-cache: HIT`; otherwise the run fails instead of reporting invalid timings. Raw JSON and a Markdown summary are written under `reports/`.
+
+A high-round run creates many Vercel deployments. Start with 3 rounds; use 20–30 only when the account budget and rate limits are understood.
