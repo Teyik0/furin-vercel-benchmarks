@@ -23,7 +23,7 @@ cd ../../furin-vercel-benchmarks
 bun run setup
 ```
 
-Furin is built locally and deployed with `vercel deploy --prebuilt`; unpublished source never has to be installed by Vercel. The benchmark-only Bun plugin in `apps/furin/furin.config.ts` resolves React peer dependencies from this repository so `bun link` does not bundle a second physical React copy.
+Furin is built locally and deployed with `vercel deploy --prebuilt`; unpublished source never has to be installed by Vercel. The benchmark-only Bun plugin in `apps/furin/furin.config.ts` resolves framework peer dependencies from this repository so `bun link` does not bundle a second physical React copy.
 
 ## Run
 
