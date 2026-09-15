@@ -3,6 +3,8 @@ node_modules
 **/.vercel
 **/.output
 **/.next
+**/.nitro
+**/*.tsbuildinfo
 **/.furin
 **/dist
 **/furin-env.d.ts
