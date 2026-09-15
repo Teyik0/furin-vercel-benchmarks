@@ -1,0 +1,14 @@
+.gitignore
+  h_a2cbd1b0e3ae6e 6-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "2cea6932a046f750ca481a8a24531a3c99148ca3",
+  "prompts": {},
+  "humans": {
+    "h_a2cbd1b0e3ae6e": {
+      "author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
