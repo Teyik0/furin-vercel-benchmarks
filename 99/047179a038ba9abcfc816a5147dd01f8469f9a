@@ -1,0 +1,138 @@
+.gitignore
+  h_a2cbd1b0e3ae6e 1-12
+README.md
+  h_a2cbd1b0e3ae6e 1-37
+apps/furin/.gitignore
+  h_a2cbd1b0e3ae6e 1-2
+apps/furin/furin.config.ts
+  h_a2cbd1b0e3ae6e 1-16
+apps/furin/package.json
+  h_a2cbd1b0e3ae6e 1-22
+apps/furin/src/pages/dynamic.tsx
+  h_a2cbd1b0e3ae6e 1-8
+apps/furin/src/pages/index.tsx
+  h_a2cbd1b0e3ae6e 1-3
+apps/furin/src/pages/isr.tsx
+  h_a2cbd1b0e3ae6e 1-6
+apps/furin/src/pages/loader.tsx
+  h_a2cbd1b0e3ae6e 1-6
+apps/furin/src/pages/root.tsx
+  h_a2cbd1b0e3ae6e 1-4
+apps/furin/src/pages/streaming.tsx
+  h_a2cbd1b0e3ae6e 1-8
+apps/furin/src/server.ts
+  h_a2cbd1b0e3ae6e 1-8
+apps/furin/tsconfig.json
+  h_a2cbd1b0e3ae6e 1-5
+apps/furin/vercel.json
+  h_a2cbd1b0e3ae6e 1-7
+apps/next/.gitignore
+  h_a2cbd1b0e3ae6e 1-2
+apps/next/app/api/ping/route.ts
+  h_a2cbd1b0e3ae6e 1-5
+apps/next/app/dynamic/page.tsx
+  h_a2cbd1b0e3ae6e 1-7
+apps/next/app/isr/page.tsx
+  h_a2cbd1b0e3ae6e 1-5
+apps/next/app/layout.tsx
+  h_a2cbd1b0e3ae6e 1-3
+apps/next/app/loader/page.tsx
+  h_a2cbd1b0e3ae6e 1-5
+apps/next/app/page.tsx
+  h_a2cbd1b0e3ae6e 1
+apps/next/app/streaming/page.tsx
+  h_a2cbd1b0e3ae6e 1-9
+apps/next/next-env.d.ts
+  h_a2cbd1b0e3ae6e 1-7
+apps/next/package.json
+  h_a2cbd1b0e3ae6e 1-20
+apps/next/tsconfig.json
+  h_a2cbd1b0e3ae6e 1-36
+apps/next/tsconfig.tsbuildinfo
+  h_a2cbd1b0e3ae6e 1
+apps/next/vercel.json
+  h_a2cbd1b0e3ae6e 1
+apps/tanstack/.gitignore
+  h_a2cbd1b0e3ae6e 1-2
+apps/tanstack/.nitro/vite/services/ssr/assets/_tanstack-start-injected-head-scripts_v-cda0Ky0D.js
+  h_a2cbd1b0e3ae6e 1-4
+apps/tanstack/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DmUh4J2d.js
+  h_a2cbd1b0e3ae6e 1-4
+apps/tanstack/.nitro/vite/services/ssr/assets/dynamic-B5OVdSnG.js
+  h_a2cbd1b0e3ae6e 1-17
+apps/tanstack/.nitro/vite/services/ssr/assets/index-BOEO2Rta.js
+  h_a2cbd1b0e3ae6e 1-12
+apps/tanstack/.nitro/vite/services/ssr/assets/index-g99J11ZS.js
+  h_a2cbd1b0e3ae6e 1-15
+apps/tanstack/.nitro/vite/services/ssr/assets/isr-3QcJRSrK.js
+  h_a2cbd1b0e3ae6e 1-15
+apps/tanstack/.nitro/vite/services/ssr/assets/router-C5WBpgJn.js
+  h_a2cbd1b0e3ae6e 1-1164
+apps/tanstack/.nitro/vite/services/ssr/assets/start-HYkvq4Ni.js
+  h_a2cbd1b0e3ae6e 1-4
+apps/tanstack/.nitro/vite/services/ssr/assets/streaming-DNsMIc_B.js
+  h_a2cbd1b0e3ae6e 1-23
+apps/tanstack/.nitro/vite/services/ssr/server.js
+  h_a2cbd1b0e3ae6e 1-37361
+apps/tanstack/nitro.config.ts
+  h_a2cbd1b0e3ae6e 1
+apps/tanstack/package.json
+  h_a2cbd1b0e3ae6e 1-26
+apps/tanstack/src/routeTree.gen.ts
+  h_a2cbd1b0e3ae6e 1-165
+apps/tanstack/src/router.tsx
+  h_a2cbd1b0e3ae6e 1-3
+apps/tanstack/src/routes/__root.tsx
+  h_a2cbd1b0e3ae6e 1-5
+apps/tanstack/src/routes/api.ping.ts
+  h_a2cbd1b0e3ae6e 1-4
+apps/tanstack/src/routes/dynamic.tsx
+  h_a2cbd1b0e3ae6e 1-4
+apps/tanstack/src/routes/index.tsx
+  h_a2cbd1b0e3ae6e 1-2
+apps/tanstack/src/routes/isr.tsx
+  h_a2cbd1b0e3ae6e 1-15
+apps/tanstack/src/routes/loader/index.tsx
+  h_a2cbd1b0e3ae6e 1-12
+apps/tanstack/src/routes/streaming.tsx
+  h_a2cbd1b0e3ae6e 1-22
+apps/tanstack/src/server-functions.ts
+  h_a2cbd1b0e3ae6e 1-6
+apps/tanstack/tsconfig.json
+  h_a2cbd1b0e3ae6e 1-16
+apps/tanstack/vercel.json
+  h_a2cbd1b0e3ae6e 1
+apps/tanstack/vite.config.ts
+  h_a2cbd1b0e3ae6e 1-9
+bun.lock
+  h_a2cbd1b0e3ae6e 1-572
+package.json
+  h_a2cbd1b0e3ae6e 1-24
+packages/workload/package.json
+  h_a2cbd1b0e3ae6e 1-7
+packages/workload/src/index.tsx
+  h_a2cbd1b0e3ae6e 1-44
+reports/README.md
+  h_a2cbd1b0e3ae6e 1
+scripts/benchmark.ts
+  h_a2cbd1b0e3ae6e 1-376
+scripts/stats.ts
+  h_a2cbd1b0e3ae6e 1-57
+scripts/verify-furin-link.ts
+  h_a2cbd1b0e3ae6e 1-19
+tests/stats.test.ts
+  h_a2cbd1b0e3ae6e 1-57
+tsconfig.json
+  h_a2cbd1b0e3ae6e 1-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "99047179a038ba9abcfc816a5147dd01f8469f9a",
+  "prompts": {},
+  "humans": {
+    "h_a2cbd1b0e3ae6e": {
+      "author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
