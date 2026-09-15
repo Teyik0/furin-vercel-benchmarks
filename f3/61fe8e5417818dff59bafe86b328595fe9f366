@@ -1,0 +1,20 @@
+.gitignore
+  h_a2cbd1b0e3ae6e 12
+README.md
+  h_a2cbd1b0e3ae6e 35
+scripts/benchmark.ts
+  h_a2cbd1b0e3ae6e 16,28,57,65,73,123-124,175,184,186,190-196,200,211,218,259,284-285,292-293,297,310,315-318,330,350,362,371
+scripts/verify-furin-link.ts
+  h_a2cbd1b0e3ae6e 12-14,18-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "f361fe8e5417818dff59bafe86b328595fe9f366",
+  "prompts": {},
+  "humans": {
+    "h_a2cbd1b0e3ae6e": {
+      "author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
