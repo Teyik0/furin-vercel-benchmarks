@@ -13,6 +13,7 @@ interface FrameworkConfig {
   appDir: string;
   name: FrameworkName;
   noncePath: string;
+  publicNoncePath: string;
   project: string;
 }
 
@@ -24,6 +25,7 @@ interface BrowserResourceMeasurement {
 }
 
 interface Measurement {
+  backendMs: number | null;
   browserResources?: BrowserResourceMeasurement[];
   bytes: number;
   cache: string | null;
@@ -52,6 +54,7 @@ const FRAMEWORKS: FrameworkConfig[] = [
     appDir: join(ROOT, "apps/furin"),
     name: "furin",
     noncePath: join(ROOT, "apps/furin/src/.benchmark-nonce.ts"),
+    publicNoncePath: join(ROOT, "apps/furin/public/.benchmark-nonce.txt"),
     project: "furin-baseline",
   },
   {
@@ -59,6 +62,7 @@ const FRAMEWORKS: FrameworkConfig[] = [
     appDir: join(ROOT, "apps/next"),
     name: "next",
     noncePath: join(ROOT, "apps/next/app/.benchmark-nonce.ts"),
+    publicNoncePath: join(ROOT, "apps/next/public/.benchmark-nonce.txt"),
     project: "next-baseline",
   },
   {
@@ -66,6 +70,7 @@ const FRAMEWORKS: FrameworkConfig[] = [
     appDir: join(ROOT, "apps/tanstack"),
     name: "tanstack",
     noncePath: join(ROOT, "apps/tanstack/src/.benchmark-nonce.ts"),
+    publicNoncePath: join(ROOT, "apps/tanstack/public/.benchmark-nonce.txt"),
     project: "tanstack-baseline",
   },
 ];
@@ -115,6 +120,8 @@ async function run(command: string[], cwd: string): Promise<string> {
 
 function writeNonce(framework: FrameworkConfig, nonce: string): void {
   writeFileSync(framework.noncePath, `export const BENCHMARK_NONCE = ${JSON.stringify(nonce)};\n`);
+  mkdirSync(dirname(framework.publicNoncePath), { recursive: true });
+  writeFileSync(framework.publicNoncePath, nonce);
 }
 
 function deploymentUrl(output: string): string {
@@ -165,7 +172,7 @@ function headerValue(headers: string, name: string): string | null {
 
 async function measureHttp(
   framework: FrameworkConfig,
-  deployment: string,
+  baseUrl: string,
   path: string,
   round: number,
   scenario: Scenario,
@@ -174,16 +181,23 @@ async function measureHttp(
   const tempDir = mkdtempSync(join(tmpdir(), "vercel-benchmark-"));
   const headersPath = join(tempDir, "headers.txt");
   const marker = "__BENCHMARK_METRIC__";
-  const format = `${marker}{"status":%{http_code},"ttfb":%{time_starttransfer},"total":%{time_total},"bytes":%{size_download}}`;
+  const format = `${marker}{"status":%{http_code},"pretransfer":%{time_pretransfer},"ttfb":%{time_starttransfer},"total":%{time_total},"bytes":%{size_download}}`;
   const output = await run(
-    ["bunx", "vercel", "curl", `${deployment}${path}`, "--scope", TEAM, "--", "--silent", "--output", "/dev/null", "--dump-header", headersPath, "--write-out", format],
+    ["curl", `${baseUrl}${path}`, "--silent", "--output", "/dev/null", "--dump-header", headersPath, "--write-out", format],
     framework.appDir
   );
   const encoded = output.slice(output.lastIndexOf(marker) + marker.length).trim();
-  const timing = JSON.parse(encoded) as { bytes: number; status: number; total: number; ttfb: number };
+  const timing = JSON.parse(encoded) as {
+    bytes: number;
+    pretransfer: number;
+    status: number;
+    total: number;
+    ttfb: number;
+  };
   assertSuccessfulHttpStatus(timing.status, framework.name, scenario);
   const headers = readFileSync(headersPath, "utf8");
   return {
+    backendMs: (timing.ttfb - timing.pretransfer) * 1000,
     bytes: timing.bytes,
     cache: headerValue(headers, "x-vercel-cache"),
     framework: framework.name,
@@ -194,14 +208,14 @@ async function measureHttp(
     status: timing.status,
     totalMs: timing.total * 1000,
     ttfbMs: timing.ttfb * 1000,
-    url: `${deployment}${path}`,
+    url: `${baseUrl}${path}`,
   };
 }
 
 async function waitForAlias(framework: FrameworkConfig, nonce: string): Promise<void> {
   const deadline = Date.now() + 30_000;
   while (Date.now() < deadline) {
-    const response = await fetch(`${framework.alias}/dynamic?nonce=${encodeURIComponent(nonce)}`);
+    const response = await fetch(`${framework.alias}/.benchmark-nonce.txt?nonce=${encodeURIComponent(nonce)}`);
     if (response.ok && (await response.text()).includes(nonce)) {
       return;
     }
@@ -242,6 +256,7 @@ async function measureNavigation(
         })
     , startedAt);
     return {
+      backendMs: null,
       browserResources,
       bytes: 0,
       cache: null,
@@ -266,18 +281,20 @@ function markdown(measurements: Measurement[], options: Options): string {
     "",
     `Rounds: ${options.rounds}; warm samples: ${options.warmSamples}; region: cdg1.`,
     "",
-    "| Framework | Scenario | Phase | Cache | Samples | Median TTFB | p95 TTFB | Median total | p95 total |",
-    "|---|---|---|---|---:|---:|---:|---:|---:|",
+    "| Framework | Scenario | Phase | Cache | Samples | Median backend | p95 backend | Median TTFB | p95 TTFB | Median total | p95 total |",
+    "|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|",
   ];
   const keys = [...new Set(measurements.map((item) => `${item.framework}|${item.scenario}|${item.phase}`))].sort();
   for (const key of keys) {
     const [framework, scenario, phase] = key.split("|");
     const group = measurements.filter((item) => `${item.framework}|${item.scenario}|${item.phase}` === key);
     const totals = summarize(group.map((item) => item.totalMs));
+    const backendValues = group.flatMap((item) => item.backendMs === null ? [] : [item.backendMs]);
+    const backend = backendValues.length > 0 ? summarize(backendValues) : null;
     const ttfbValues = group.flatMap((item) => item.ttfbMs === null ? [] : [item.ttfbMs]);
     const ttfb = ttfbValues.length > 0 ? summarize(ttfbValues) : null;
     const caches = [...new Set(group.flatMap((item) => item.cache === null ? [] : [item.cache]))];
-    lines.push(`| ${framework} | ${scenario} | ${phase} | ${caches.join(", ") || "—"} | ${group.length} | ${ttfb ? `${ttfb.median.toFixed(1)} ms` : "—"} | ${ttfb ? `${ttfb.p95.toFixed(1)} ms` : "—"} | ${totals.median.toFixed(1)} ms | ${totals.p95.toFixed(1)} ms |`);
+    lines.push(`| ${framework} | ${scenario} | ${phase} | ${caches.join(", ") || "—"} | ${group.length} | ${backend ? `${backend.median.toFixed(1)} ms` : "—"} | ${backend ? `${backend.p95.toFixed(1)} ms` : "—"} | ${ttfb ? `${ttfb.median.toFixed(1)} ms` : "—"} | ${ttfb ? `${ttfb.p95.toFixed(1)} ms` : "—"} | ${totals.median.toFixed(1)} ms | ${totals.p95.toFixed(1)} ms |`);
   }
   return `${lines.join("\n")}\n`;
 }
@@ -290,14 +307,15 @@ const warmScenarios: { path: string; scenario: Scenario }[] = [
   { path: "/api/ping", scenario: "ping" },
 ];
 for (let round = 1; round <= options.rounds; round += 1) {
-  const deployments = new Map<FrameworkName, { nonce: string; url: string }>();
+  const deployments = new Map<FrameworkName, { nonce: string }>();
   for (const framework of rotate(FRAMEWORKS, round - 1)) {
     const nonce = `${Date.now()}-${round}-${framework.name}`;
     writeNonce(framework, nonce);
     console.log(`[benchmark] deploying ${framework.name}, round ${round}`);
-    const url = await deploy(framework);
-    deployments.set(framework.name, { nonce, url });
-    measurements.push(await measureHttp(framework, url, "/dynamic", round, "dynamic", "cold"));
+    await deploy(framework);
+    deployments.set(framework.name, { nonce });
+    await waitForAlias(framework, nonce);
+    measurements.push(await measureHttp(framework, framework.alias, "/dynamic", round, "dynamic", "cold"));
   }
 
   for (let sample = 0; sample < options.warmSamples; sample += 1) {
@@ -309,7 +327,7 @@ for (let round = 1; round <= options.rounds; round += 1) {
       measurements.push(
         await measureHttp(
           framework,
-          deployment.url,
+          framework.alias,
           `/dynamic?sample=${round}-${sample}`,
           round,
           "dynamic",
@@ -329,7 +347,7 @@ for (let round = 1; round <= options.rounds; round += 1) {
           throw new Error(`Missing deployment for ${framework.name}`);
         }
         measurements.push(
-          await measureHttp(framework, deployment.url, path, round, scenario, "warm")
+          await measureHttp(framework, framework.alias, path, round, scenario, "warm")
         );
       }
     }
@@ -341,7 +359,7 @@ for (let round = 1; round <= options.rounds; round += 1) {
       throw new Error(`Missing deployment for ${framework.name}`);
     }
     measurements.push(
-      await measureHttp(framework, deployment.url, "/isr", round, "isr", "initial")
+      await measureHttp(framework, framework.alias, "/isr", round, "isr", "initial")
     );
   }
   for (let sample = 0; sample < options.warmSamples; sample += 1) {
@@ -350,7 +368,7 @@ for (let round = 1; round <= options.rounds; round += 1) {
       if (deployment === undefined) {
         throw new Error(`Missing deployment for ${framework.name}`);
       }
-      const hit = await measureHttp(framework, deployment.url, "/isr", round, "isr", "hit");
+      const hit = await measureHttp(framework, framework.alias, "/isr", round, "isr", "hit");
       assertCacheHit(hit.cache, framework.name);
       measurements.push(hit);
     }

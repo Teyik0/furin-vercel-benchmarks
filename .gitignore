@@ -9,6 +9,7 @@ node_modules
 **/dist
 **/furin-env.d.ts
 **/.benchmark-nonce.ts
+**/.benchmark-nonce.txt
 reports/*.json
 reports/*.md
 !reports/README.md

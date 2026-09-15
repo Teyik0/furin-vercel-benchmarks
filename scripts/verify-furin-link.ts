@@ -9,10 +9,16 @@ const nonceFiles = [
   "apps/furin/src/.benchmark-nonce.ts",
   "apps/next/app/.benchmark-nonce.ts",
   "apps/tanstack/src/.benchmark-nonce.ts",
+  "apps/furin/public/.benchmark-nonce.txt",
+  "apps/next/public/.benchmark-nonce.txt",
+  "apps/tanstack/public/.benchmark-nonce.txt",
 ];
 for (const nonceFile of nonceFiles) {
   if (!(await Bun.file(nonceFile).exists())) {
-    await Bun.write(nonceFile, 'export const BENCHMARK_NONCE = "local";\n');
+    await Bun.write(
+      nonceFile,
+      nonceFile.endsWith(".ts") ? 'export const BENCHMARK_NONCE = "local";\n' : "local"
+    );
   }
 }
 
