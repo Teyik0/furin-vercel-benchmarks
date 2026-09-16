@@ -1,0 +1,14 @@
+apps/tanstack/vite.config.ts
+  h_a2cbd1b0e3ae6e 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "bd8d295cd8466c20ed21d9636faefc61798e22af",
+  "prompts": {},
+  "humans": {
+    "h_a2cbd1b0e3ae6e": {
+      "author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
