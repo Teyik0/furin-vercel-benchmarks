@@ -30,9 +30,11 @@ jobs:
       - name: Install Furin
         working-directory: furin
         run: bun install --frozen-lockfile
-      - name: Link Furin
+      - name: Build and link Furin
         working-directory: furin/packages/core
-        run: bun link
+        run: |
+          bun run build
+          bun link
       - name: Install benchmark
         working-directory: benchmark
         run: bun install --frozen-lockfile
