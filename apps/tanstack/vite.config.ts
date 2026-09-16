@@ -5,5 +5,5 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   resolve: { tsconfigPaths: true },
-  plugins: [nitro(), tanstackStart(), react()],
+  plugins: [nitro({ preset: "vercel" }), tanstackStart(), react()],
 });
