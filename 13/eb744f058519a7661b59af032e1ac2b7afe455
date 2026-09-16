@@ -1,0 +1,14 @@
+.github/workflows/ci.yml
+  h_a2cbd1b0e3ae6e 24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "13eb744f058519a7661b59af032e1ac2b7afe455",
+  "prompts": {},
+  "humans": {
+    "h_a2cbd1b0e3ae6e": {
+      "author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
