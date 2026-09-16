@@ -12,7 +12,9 @@
     "setup": "bun install && bun run link:furin",
     "link:furin": "bun scripts/verify-furin-link.ts",
     "test": "bun test",
-    "typecheck": "bunx tsc --noEmit && bun run --filter '*' --if-present typecheck"
+    "typecheck": "bunx tsc --noEmit && bun run --filter '*' --if-present typecheck",
+    "report:local": "bun scripts/local-report.ts",
+    "compare:local": "bun scripts/compare-local-reports.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.4.2",

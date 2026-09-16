@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout benchmark
+        uses: actions/checkout@v4
+        with:
+          path: benchmark
+      - name: Checkout Furin
+        uses: actions/checkout@v4
+        with:
+          repository: Teyik0/furin
+          path: furin
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - name: Install Furin
+        working-directory: furin
+        run: bun install --frozen-lockfile
+      - name: Link Furin
+        working-directory: furin/packages/core
+        run: bun link
+      - name: Install benchmark
+        working-directory: benchmark
+        run: bun install --frozen-lockfile
+      - name: Validate linked package
+        working-directory: benchmark
+        run: bun run link:furin
+      - name: Build framework fixtures
+        working-directory: benchmark
+        run: bun run build
+      - name: Typecheck
+        working-directory: benchmark
+        run: bun run typecheck
+      - name: Test
+        working-directory: benchmark
+        run: bun test
+      - name: Record local report
+        working-directory: benchmark
+        run: bun scripts/local-report.ts local-report.json
+      - name: Upload local report
+        uses: actions/upload-artifact@v4
+        with:
+          name: local-report
+          path: benchmark/local-report.json

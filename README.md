@@ -35,3 +35,19 @@ bun run benchmark --rounds 3 --warm-samples 5
 The runner rotates deployment order and interleaves warm requests so each framework sees the same time windows. It targets the public production aliases with direct `curl` requests, avoiding the authentication proxy used by protected deployment URLs. Reports include both user-visible TTFB and backend time (TTFB minus DNS/TCP/TLS pre-transfer time). Browser navigation uses a programmatic click timed inside the page on the public production aliases after verifying their build nonce; raw reports include every resulting resource timing. Every HTTP response must be successful, and ISR hit samples must carry `x-vercel-cache: HIT`; otherwise the run fails instead of reporting invalid timings. Raw JSON and a Markdown summary are written under `reports/`.
 
 A high-round run creates many Vercel deployments. Start with 3 rounds; use 20–30 only when the account budget and rate limits are understood.
+
+## CI integration
+
+The repository exposes two deterministic commands for Furin PR checks:
+
+```bash
+bun run --cwd apps/furin build
+bun run report:local ./local-report.json
+bun run compare:local ./base.json ./head.json ./comparison.md
+```
+
+The local report tracks the Vercel Function handler/bootstrap and client asset sizes. `compare:local` allows 5% plus 4 KiB for the handler, 5% plus 1 KiB for the bootstrap, and 3% plus a small absolute allowance for client JS/CSS. This catches bundle regressions without involving network latency.
+
+The repository's own CI checks out `Teyik0/furin`, links its current `packages/core`, and builds all three fixtures. Furin's CI performs the same validation for every pull request and compares local reports once the target branch supports the Vercel adapter.
+
+Live Vercel measurements remain scheduled or manually dispatched from Furin. They require `VERCEL_TOKEN`, run multiple deployment rounds, and are uploaded as artifacts rather than treating one noisy network sample as a required PR check.
