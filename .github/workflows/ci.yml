@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Teyik0/furin
+          ref: feat/vercel-adapter
           path: furin
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
