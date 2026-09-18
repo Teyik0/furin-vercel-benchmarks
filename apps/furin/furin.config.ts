@@ -11,6 +11,6 @@ const linkedPeerDependencies: Bun.BunPlugin = {
 };
 
 export default defineConfig({
-  plugins: [linkedPeerDependencies],
+  plugins: [{ ...linkedPeerDependencies, buildOnly: true }],
   vercel: { regions: ["cdg1"] },
 });
