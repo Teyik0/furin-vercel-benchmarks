@@ -1,0 +1,16 @@
+scripts/stats.ts
+  h_a2cbd1b0e3ae6e 44,46
+tests/stats.test.ts
+  h_a2cbd1b0e3ae6e 42,44,46
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "7b432a956173abbea49fb6e9c84fdac374d4c730",
+  "prompts": {},
+  "humans": {
+    "h_a2cbd1b0e3ae6e": {
+      "author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
