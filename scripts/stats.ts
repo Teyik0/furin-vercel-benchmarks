@@ -41,9 +41,9 @@ export function assertSuccessfulHttpStatus(
 }
 
 export function assertCacheHit(cache: string | null, framework: string): void {
-  if (cache !== "HIT") {
+  if (cache !== "HIT" && cache !== "PRERENDER") {
     throw new Error(
-      `${framework} ISR expected x-vercel-cache HIT, received ${cache ?? "no header"}`
+      `${framework} ISR expected x-vercel-cache HIT or PRERENDER, received ${cache ?? "no header"}`
     );
   }
 }

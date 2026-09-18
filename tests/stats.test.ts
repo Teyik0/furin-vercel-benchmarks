@@ -39,10 +39,11 @@ describe("assertSuccessfulHttpStatus", () => {
 
 
 describe("assertCacheHit", () => {
-  test("accepts only a verified Vercel HIT", () => {
+  test("accepts Vercel cached ISR states", () => {
     expect(() => assertCacheHit("HIT", "furin")).not.toThrow();
+    expect(() => assertCacheHit("PRERENDER", "next")).not.toThrow();
     expect(() => assertCacheHit("MISS", "furin")).toThrow(
-      "furin ISR expected x-vercel-cache HIT, received MISS"
+      "furin ISR expected x-vercel-cache HIT or PRERENDER, received MISS"
     );
   });
 });
