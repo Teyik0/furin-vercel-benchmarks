@@ -1,0 +1,14 @@
+apps/furin/furin.config.ts
+  h_a2cbd1b0e3ae6e 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "694ee036ef5ce452a6189efc5307a0431e495d1e",
+  "prompts": {},
+  "humans": {
+    "h_a2cbd1b0e3ae6e": {
+      "author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
