@@ -1,0 +1,30 @@
+.github/workflows/ci.yml
+  s_13b9bbaf2a91a1::t_cac144b5d31a24 33,37-41,44-49
+  s_13b9bbaf2a91a1::t_408ba75f12cebf 24
+apps/furin/src/pages/loader.tsx
+  s_13b9bbaf2a91a1::t_408ba75f12cebf 6
+apps/furin/src/pages/streaming.tsx
+  s_13b9bbaf2a91a1::t_408ba75f12cebf 8
+apps/furin/src/pages/isr.tsx
+  s_13b9bbaf2a91a1::t_408ba75f12cebf 6
+apps/furin/package.json
+  s_13b9bbaf2a91a1::t_51ac4c64a1017b 12,14,16-17
+bun.lock
+  s_13b9bbaf2a91a1::t_f1097aca9f2128 21,23,26,441,713-714,721,743,879,1087-1088
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6e60f7c5db26af8bd08f748020df39ff2e6a4944",
+  "prompts": {},
+  "sessions": {
+    "s_13b9bbaf2a91a1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0bf3c-f99a-7281-8d92-1966b95d20c4",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
