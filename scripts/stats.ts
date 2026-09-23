@@ -8,6 +8,14 @@ export interface Summary {
   p95: number;
 }
 
+export function isInstanceFirstRequest(serverTiming: string | null): boolean {
+  return (
+    serverTiming
+      ?.split(",")
+      .some((metric) => metric.trim().split(";")[0] === "furin_instance_first_request") ?? false
+  );
+}
+
 function round(value: number): number {
   return Math.round(value * 100) / 100;
 }

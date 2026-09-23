@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test";
 import {
   assertCacheHit,
   assertSuccessfulHttpStatus,
+  isInstanceFirstRequest,
   rotate,
   summarize,
 } from "../scripts/stats.ts";
@@ -22,6 +23,14 @@ describe("summarize", () => {
   test("rejects empty samples", () => {
     expect(() => summarize([])).toThrow("at least one sample");
   });
+});
+
+test("identifies an actual first request from Server-Timing", () => {
+  expect(
+    isInstanceFirstRequest("furin_handler;dur=76.22, furin_instance_first_request")
+  ).toBe(true);
+  expect(isInstanceFirstRequest("furin_handler;dur=1.32")).toBe(false);
+  expect(isInstanceFirstRequest(null)).toBe(false);
 });
 
 
