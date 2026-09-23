@@ -1,0 +1,27 @@
+tests/furin-loader-props.test.ts
+  s_60a29d9fb49afc::t_01ccf9fe1ba070 1-12
+apps/furin/src/pages/loader.tsx
+  s_60a29d9fb49afc::t_c6090e7bcc2a9b 3,7
+apps/furin/src/pages/isr.tsx
+  s_60a29d9fb49afc::t_c6090e7bcc2a9b 3,7
+apps/furin/src/benchmark-props.ts
+  s_60a29d9fb49afc::t_c6090e7bcc2a9b 1-13
+apps/furin/src/pages/streaming.tsx
+  s_60a29d9fb49afc::t_c6090e7bcc2a9b 5,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d6a07efcb7feba9df1fc20d8ccae21ca55c52637",
+  "prompts": {},
+  "sessions": {
+    "s_60a29d9fb49afc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b6bd-78cc-7732-afa9-84421fa78f0e",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
