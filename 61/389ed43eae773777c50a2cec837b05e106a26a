@@ -1,0 +1,27 @@
+README.md
+  s_13b9bbaf2a91a1::t_0bd7f7bfbe8b40 35
+scripts/benchmark.ts
+  s_13b9bbaf2a91a1::t_0bd7f7bfbe8b40 5-11,305-320
+  s_13b9bbaf2a91a1::t_a758bf3befce6d 321
+scripts/stats.ts
+  s_13b9bbaf2a91a1::t_ec837e8d8f439b 11-18
+tests/stats.test.ts
+  s_13b9bbaf2a91a1::t_5e2ff0cb0ae373 5,28-33
+  s_13b9bbaf2a91a1::t_39a3272759a4f8 34-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "61389ed43eae773777c50a2cec837b05e106a26a",
+  "prompts": {},
+  "sessions": {
+    "s_13b9bbaf2a91a1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0bf3c-f99a-7281-8d92-1966b95d20c4",
+        "model": "gpt-6-sol"
+      },
+      "human_author": "teyik0 <teyik0.fr@icloud.com>"
+    }
+  }
+}
