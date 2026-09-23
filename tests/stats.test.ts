@@ -31,6 +31,9 @@ test("identifies an actual first request from Server-Timing", () => {
   ).toBe(true);
   expect(isInstanceFirstRequest("furin_handler;dur=1.32")).toBe(false);
   expect(isInstanceFirstRequest(null)).toBe(false);
+  expect(
+    isInstanceFirstRequest('furin_handler;desc="slow, furin_instance_first_request;dur=1, still slow";dur=76')
+  ).toBe(false);
 });
 
 

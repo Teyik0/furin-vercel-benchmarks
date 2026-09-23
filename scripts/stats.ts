@@ -11,7 +11,8 @@ export interface Summary {
 export function isInstanceFirstRequest(serverTiming: string | null): boolean {
   return (
     serverTiming
-      ?.split(",")
+      ?.replace(/"(?:\\.|[^"\\])*"/g, '""')
+      .split(",")
       .some((metric) => metric.trim().split(";")[0] === "furin_instance_first_request") ?? false
   );
 }
