@@ -3,4 +3,4 @@ import { defineRoute } from "@teyik0/furin";
 import { route as rootRoute } from "./root";
 export const route = defineRoute().config({ layout: rootRoute, mode: "isr", revalidate: 300 })
   .loader(async () => ({ benchmark: await loadBenchmarkData(50) }))
-  .page(({ data }) => <BenchmarkPage data={data.benchmark} scenario="isr" />);
+  .page(({ benchmark }) => <BenchmarkPage data={benchmark} scenario="isr" />);
