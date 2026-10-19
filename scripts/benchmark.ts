@@ -2,7 +2,13 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } f
 import { dirname, join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { chromium } from "playwright";
-import { assertCacheHit, assertSuccessfulHttpStatus, rotate, summarize } from "./stats.ts";
+import {
+  assertCacheHit,
+  assertSuccessfulHttpStatus,
+  isInstanceFirstRequest,
+  rotate,
+  summarize,
+} from "./stats.ts";
 
 type FrameworkName = "furin" | "next" | "tanstack";
 type Phase = "cold" | "hit" | "initial" | "navigation" | "warm";
@@ -295,6 +301,23 @@ function markdown(measurements: Measurement[], options: Options): string {
     const ttfb = ttfbValues.length > 0 ? summarize(ttfbValues) : null;
     const caches = [...new Set(group.flatMap((item) => item.cache === null ? [] : [item.cache]))];
     lines.push(`| ${framework} | ${scenario} | ${phase} | ${caches.join(", ") || "—"} | ${group.length} | ${backend ? `${backend.median.toFixed(1)} ms` : "—"} | ${backend ? `${backend.p95.toFixed(1)} ms` : "—"} | ${ttfb ? `${ttfb.median.toFixed(1)} ms` : "—"} | ${ttfb ? `${ttfb.p95.toFixed(1)} ms` : "—"} | ${totals.median.toFixed(1)} ms | ${totals.p95.toFixed(1)} ms |`);
+  }
+  const furinPostDeploy = measurements.filter(
+    (item) => item.framework === "furin" && item.scenario === "dynamic" && item.phase === "cold"
+  );
+  const confirmedFirstRequests = furinPostDeploy.filter((item) =>
+    isInstanceFirstRequest(item.serverTiming)
+  );
+  lines.push(
+    "",
+    '"Cold" means the first sample after deployment, not necessarily the first request of a function instance.',
+    `Furin confirmed instance-first requests: ${confirmedFirstRequests.length}/${furinPostDeploy.length}.`
+  );
+  if (confirmedFirstRequests.length > 0) {
+    const confirmed = summarize(confirmedFirstRequests.map((item) => item.totalMs));
+    lines.push(
+      `Confirmed Furin instance-first total: median ${confirmed.median.toFixed(1)} ms; p95 ${confirmed.p95.toFixed(1)} ms (n=${confirmed.count}).`
+    );
   }
   return `${lines.join("\n")}\n`;
 }
