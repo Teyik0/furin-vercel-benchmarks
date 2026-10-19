@@ -10,7 +10,19 @@ const linkedPeerDependencies: Bun.BunPlugin = {
   },
 };
 
+let vercelAdapterPath: string | undefined;
+try {
+  vercelAdapterPath = import.meta.resolve("@teyik0/furin/adapters/vercel");
+} catch {
+  // CI also builds baseline Furin versions without deployment adapters.
+}
+
+const regions: "cdg1"[] = ["cdg1"];
+const deployment = vercelAdapterPath
+  ? { targets: [(await import(vercelAdapterPath)).vercel({ regions })] }
+  : { vercel: { regions } };
+
 export default defineConfig({
   plugins: [{ ...linkedPeerDependencies, buildOnly: true }],
-  vercel: { regions: ["cdg1"] },
+  ...deployment,
 });
